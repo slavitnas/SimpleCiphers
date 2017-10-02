@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -42,8 +43,9 @@ namespace SimpleCiphers.ViewModels
                 // задать новый метод шифрования
                 _cipher = Data.CipherMethods[value];
                 ResetColors();
-                ShowAlphabet();
+                ResetAlphabet();
                 NotifyOfPropertyChange(() => SelectedType);
+                NotifyOfPropertyChange(() => CanShowAlphabet);
             }
         }
 
@@ -61,8 +63,9 @@ namespace SimpleCiphers.ViewModels
                 if (_key == value) return;
                 _key = value.Replace(" ", "•");
                 ResetColors();
-                ShowAlphabet();
+                ResetAlphabet();
                 NotifyOfPropertyChange(() => Key);
+                NotifyOfPropertyChange(() => CanShowAlphabet);
             }
         }
 
@@ -89,8 +92,9 @@ namespace SimpleCiphers.ViewModels
                 // задать новый язык
                 Alphabet = Data.Words[value];
                 ResetColors();
-                ShowAlphabet();
+                ResetAlphabet();
                 NotifyOfPropertyChange(() => SelectedLang);
+                NotifyOfPropertyChange(() => CanShowAlphabet);
             }
         }
 
@@ -100,10 +104,12 @@ namespace SimpleCiphers.ViewModels
             set
             {
                 if (_alphabet == value) return;
-                _alphabet = value.Replace(" ", "•");
+                _alphabet = string.Join("", value.ToLower()
+                    .Replace(" ", "•").Distinct());
                 ResetColors();
-                ShowAlphabet();
+                ResetAlphabet();
                 NotifyOfPropertyChange(() => Alphabet);
+                NotifyOfPropertyChange(() => CanShowAlphabet);
             }
         }
 
@@ -156,15 +162,24 @@ namespace SimpleCiphers.ViewModels
             }
         }
 
-        // Показать шифрованный алфавит
-        private void ShowAlphabet()
+        // Сбросить шифрованный алфавит
+        private void ResetAlphabet()
         {
             EncryptedAlphabet = null;
             RowAlphabet = ColAlphabet = null;
+        }
+
+        // Показать шифрованный алфавит
+        public void ShowAlphabet()
+        {
             EncryptedAlphabet = _cipher.GetEncryptedAlphabet(Key, Alphabet);
             RowAlphabet = _cipher.GetRowAlphabet(Alphabet);
             ColAlphabet = _cipher.GetColAlphabet(Alphabet);
         }
+
+        public bool CanShowAlphabet => !string.IsNullOrEmpty(Key)
+                                       || _cipher is PolybiusCipher
+                                       || _cipher is PortaCipher;
 
         #endregion
 
@@ -217,7 +232,7 @@ namespace SimpleCiphers.ViewModels
             }
             catch (Exception ex)
             {
-                ShowError(ex.ToString());
+                ShowError(ex.Message);
             }
         }
 
@@ -232,7 +247,7 @@ namespace SimpleCiphers.ViewModels
             }
             catch (Exception ex)
             {
-                ShowError(ex.ToString());
+                ShowError(ex.Message);
             }
         }
 
