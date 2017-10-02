@@ -102,7 +102,7 @@ namespace SimpleCiphers.Models
                 }
             else
             {
-                for (int i = 0; i < text.Length - count + 2; i += count)
+                for (int i = 0; i < text.Length - count + 1; i += count)
                 {
                     string temp = text.Substring(i, count);
                     if (ArrayOperations.ContainsIn(temp, encAbc, out var x, out var y))
