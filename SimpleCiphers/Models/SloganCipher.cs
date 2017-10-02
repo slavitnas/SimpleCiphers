@@ -23,14 +23,14 @@ namespace SimpleCiphers.Models
                 throw new ArgumentException("Необходимо задать ключ для лозунгового шифра.");
             }
 
-            string slogan = string.Join("", key.ToLower().Distinct());
+            string slogan = string.Join("", key.ToLowerInvariant().Distinct());
             string check = string.Join("", slogan.Intersect(abc));
             if (check != slogan)
             {
                 throw new ArgumentException("Лозунг содержит символы не из алфавита.");
             }
 
-            string encAbc = Crypt(abc, key, abc, true);
+            string encAbc = string.Join("", slogan.Union(abc));
             string[,] arr = new string[1, encAbc.Length];
             for (int i = 0; i < encAbc.Length; i++)
             {
