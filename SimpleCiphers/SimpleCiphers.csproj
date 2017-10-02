@@ -90,6 +90,7 @@
     <Compile Include="Models\CaesarCipher.cs" />
     <Compile Include="Models\Data.cs" />
     <Compile Include="Models\ICipher.cs" />
+    <Compile Include="Models\PlayfairCipher.cs" />
     <Compile Include="Models\PolybiusCipher.cs" />
     <Compile Include="Models\PortaCipher.cs" />
     <Compile Include="Models\SloganCipher.cs" />

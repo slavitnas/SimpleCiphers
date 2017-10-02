@@ -18,7 +18,8 @@ namespace SimpleCiphers.Models
             ["Цезаря"] = new CaesarCipher(),
             ["Лозунговый"] = new SloganCipher(),
             ["Полибианский"] = new PolybiusCipher(),
-            ["Порты"] = new PortaCipher()
+            ["Порты"] = new PortaCipher(),
+            ["Плейфера"] = new PlayfairCipher()
         };
     }
 }
