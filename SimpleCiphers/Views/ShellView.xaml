@@ -71,7 +71,7 @@
         <UniformGrid DockPanel.Dock="Top" Rows="2">
             <DockPanel DockPanel.Dock="Top">
                 <TextBlock Text="Шифрованный алфавит:" DockPanel.Dock="Top" />
-                <DataGrid IsReadOnly="True" AlternatingRowBackground="AliceBlue"
+                <DataGrid IsReadOnly="True" AlternatingRowBackground="PowderBlue"
                           Background="White" FontFamily="Consolas" Padding="0"
                           CanUserSortColumns="False" CanUserResizeColumns="False"
                           CanUserResizeRows="False" CanUserReorderColumns="False"
