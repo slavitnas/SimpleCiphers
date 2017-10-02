@@ -21,7 +21,7 @@ namespace SimpleCiphers.Models
 
             if (lengthArr > 9)
             {
-                return null;
+                throw new ArgumentException("Недопустимо большая длина входного алфавита.");
             }
 
             var abcArr = new string[lengthArr, lengthArr];

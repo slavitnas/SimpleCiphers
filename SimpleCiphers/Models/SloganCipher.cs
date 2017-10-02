@@ -18,18 +18,16 @@ namespace SimpleCiphers.Models
 
         public string[,] GetEncryptedAlphabet(string key, string abc)
         {
-            // пустой лозунг
             if (string.IsNullOrEmpty(key))
             {
-                return null;
+                throw new ArgumentException("Необходимо задать ключ для лозунгового шифра.");
             }
 
-            // лозунг содержит символы не из алфавита.
             string slogan = string.Join("", key.ToLower().Distinct());
             string check = string.Join("", slogan.Intersect(abc));
             if (check != slogan)
             {
-                return null;
+                throw new ArgumentException("Лозунг содержит символы не из алфавита.");
             }
 
             string encAbc = Crypt(abc, key, abc, true);
@@ -60,8 +58,7 @@ namespace SimpleCiphers.Models
         {
             if (string.IsNullOrEmpty(key))
             {
-                throw new ArgumentException(
-                    "Необходимо задать ключ для лозунгового шифра.");
+                throw new ArgumentException("Необходимо задать ключ для лозунгового шифра.");
             }
 
             text = text.ToLowerInvariant();

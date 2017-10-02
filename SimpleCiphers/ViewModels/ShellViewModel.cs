@@ -115,7 +115,7 @@ namespace SimpleCiphers.ViewModels
 
         #endregion
 
-        #region DataGrid с шифрованным алфавитом
+        #region DataGrid и кнопка с шифрованным алфавитом
 
         // Шифрованный алфавит
         private string[,] _encryptedAlphabet;
@@ -169,12 +169,19 @@ namespace SimpleCiphers.ViewModels
             RowAlphabet = ColAlphabet = null;
         }
 
-        // Показать шифрованный алфавит
+        // Кнопка показать шифрованный алфавит 
         public void ShowAlphabet()
         {
-            EncryptedAlphabet = _cipher.GetEncryptedAlphabet(Key, Alphabet);
-            RowAlphabet = _cipher.GetRowAlphabet(Alphabet);
-            ColAlphabet = _cipher.GetColAlphabet(Alphabet);
+            try
+            {
+                EncryptedAlphabet = _cipher.GetEncryptedAlphabet(Key, Alphabet);
+                RowAlphabet = _cipher.GetRowAlphabet(Alphabet);
+                ColAlphabet = _cipher.GetColAlphabet(Alphabet);
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex.Message);
+            }
         }
 
         public bool CanShowAlphabet => !string.IsNullOrEmpty(Key)

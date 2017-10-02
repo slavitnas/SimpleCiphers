@@ -18,10 +18,15 @@ namespace SimpleCiphers.Models
 
         public string[,] GetEncryptedAlphabet(string key, string abc)
         {
-            // ключ только из целых чисел
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new ArgumentException("Необходимо задать ключ для шифра Цезаря.");
+            }
+
             if (!int.TryParse(key, out var temp))
             {
-                return null;
+                throw new ArgumentException("Ключ для шифра Цезаря должен состоять " +
+                                            "только из целых чисел в пределах int.");
             }
 
             string encAbc = Crypt(abc, key, abc, true);
@@ -52,17 +57,15 @@ namespace SimpleCiphers.Models
         {
             if (string.IsNullOrEmpty(key))
             {
-                throw new ArgumentException(
-                    "Необходимо задать ключ для шифра Цезаря.");
+                throw new ArgumentException("Необходимо задать ключ для шифра Цезаря.");
             }
 
             bool check = int.TryParse(key, out var intKey);
 
             if (!check)
             {
-                throw new ArgumentException(
-                    "Ключ для шифра Цезаря должен состоять " +
-                    "только из целых чисел в пределах int.");
+                throw new ArgumentException("Ключ для шифра Цезаря должен состоять " +
+                                            "только из целых чисел в пределах int.");
             }
 
             string checkText = string.Join("", abc.Union(text));
