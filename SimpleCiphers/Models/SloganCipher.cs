@@ -56,7 +56,7 @@ namespace SimpleCiphers.Models
             return arr;
         }
 
-        public string Crypt(string text, string key, string abc, bool encryptOrDecrypt)
+        public string Crypt(string text, string key, string abc, bool encrypt)
         {
             if (string.IsNullOrEmpty(key))
             {
@@ -74,30 +74,42 @@ namespace SimpleCiphers.Models
                 throw new ArgumentException("Лозунг содержит символы не из алфавита.");
             }
 
-            var cryptLang = string.Join("", slogan.Union(abc));
+            string checkText = string.Join("", abc.Union(text));
+            if (checkText != abc)
+            {
+                throw new ArgumentException("Текст содержит символы не из алфавита.");
+            }
+
+            var encAbc = string.Join("", slogan.Union(abc));
 
             string result = "";
 
-            for (int i = 0; i < text.Length; i++)
+            if (encrypt)
             {
-                for (int j = 0; j < abc.Length; j++)
+                foreach (char ch in text)
                 {
-                    // для шифрования
-                    if (encryptOrDecrypt && text[i] == abc[j])
+                    for (int j = 0; j < abc.Length; j++)
                     {
-                        result += cryptLang[j];
-                        break;
+                        if (ch == abc[j])
+                        {
+                            result += encAbc[j];
+                            break;
+                        }
                     }
-
-                    // для дешифрования
-                    if (!encryptOrDecrypt && text[i] == cryptLang[j])
+                }
+            }
+            else
+            {
+                foreach (char ch in text)
+                {
+                    for (int j = 0; j < abc.Length; j++)
                     {
-                        result += abc[j];
-                        break;
+                        if (ch == encAbc[j])
+                        {
+                            result += abc[j];
+                            break;
+                        }
                     }
-                    // если символа нет в алфавите, то добавить как есть
-                    if (j == abc.Length - 1)
-                        result += text[i];
                 }
             }
             return result;

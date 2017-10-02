@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace SimpleCiphers.Models
 {
@@ -47,7 +48,7 @@ namespace SimpleCiphers.Models
             return arr;
         }
 
-        public string Crypt(string text, string key, string abc, bool encryptOrDecrypt)
+        public string Crypt(string text, string key, string abc, bool encrypt)
         {
             if (string.IsNullOrEmpty(key))
             {
@@ -55,20 +56,28 @@ namespace SimpleCiphers.Models
                     "Необходимо задать ключ для шифра Цезаря.");
             }
 
-            text = text.ToLowerInvariant();
-
             bool check = int.TryParse(key, out var intKey);
 
             if (!check)
             {
                 throw new ArgumentException(
-                    "Ключ для шифра Цезаря должен состоять только из целых чисел.");
+                    "Ключ для шифра Цезаря должен состоять " +
+                    "только из целых чисел в пределах int.");
+            }
+
+            string checkText = string.Join("", abc.Union(text));
+            if (checkText != abc)
+            {
+                throw new ArgumentException("Текст содержит символы не из алфавита.");
             }
 
             // для исключения переполнения
             intKey %= abc.Length;
 
-            if (!encryptOrDecrypt)
+            text = text.ToLowerInvariant();
+
+            // если дешифрование, то надо отнимать
+            if (!encrypt)
                 intKey *= -1;
 
             // иначе будет обращаться к недопустимому индексу
@@ -79,23 +88,18 @@ namespace SimpleCiphers.Models
 
             string result = "";
 
-            for (int i = 0; i < text.Length; i++)
+            foreach (char ch in text)
             {
                 for (int j = 0; j < abc.Length; j++)
                 {
-                    if (text[i] == abc[j])
+                    if (ch == abc[j])
                     {
-                        // раньше тут было переполнение
-                        var temp = Math.Abs((j + intKey) % abc.Length);
+                        var temp = (j + intKey) % abc.Length;
                         result += abc[temp];
                         break;
                     }
-                    // если символа нет в алфавите, то добавить как есть
-                    if (j == abc.Length - 1)
-                        result += text[i];
                 }
             }
-
             return result;
         }
     }
