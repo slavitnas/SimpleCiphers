@@ -7,7 +7,7 @@
         xmlns:dataGrid2D="http://gu.se/DataGrid2D"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         FontSize="15" MinHeight="400" MinWidth="500"
-        Height="600" Width="800">
+        Height="500" Width="600">
     <Window.Resources>
         <Style TargetType="{x:Type Control}" x:Key="BaseStyle">
             <Setter Property="Margin" Value="5" />
@@ -30,10 +30,10 @@
             <Setter Property="Margin" Value="5,0" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}" >
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}">
             <Setter Property="Margin" Value="5,0" />
         </Style>
-            <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource BaseStyle}" />
+        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource BaseStyle}" />
         <Style TargetType="DataGridCell">
             <Setter Property="TextBlock.TextAlignment" Value="Center" />
         </Style>
@@ -70,7 +70,10 @@
 
         <UniformGrid DockPanel.Dock="Top" Rows="2">
             <DockPanel DockPanel.Dock="Top">
-                <TextBlock Text="Шифрованный алфавит:" DockPanel.Dock="Top" />
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                    <TextBlock Text="Шифрованный алфавит:" />
+                    <Button x:Name="ShowAlphabet" Content="Показать" />
+                </StackPanel>
                 <DataGrid IsReadOnly="True" AlternatingRowBackground="PowderBlue"
                           Background="White" FontFamily="Consolas" Padding="0"
                           CanUserSortColumns="False" CanUserResizeColumns="False"
@@ -83,15 +86,15 @@
             <UniformGrid DockPanel.Dock="Top" Columns="2">
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
-                        <Button  x:Name="Encrypt" Content="Шифровать" />
-                    <TextBlock Text="Исходный текст:" />
+                        <Button x:Name="Encrypt" Content="Шифровать" />
+                        <TextBlock Text="Исходный текст:" />
                     </DockPanel>
                     <TextBox x:Name="In" Background="{Binding InColor}"
                              Style="{StaticResource TextBoxCipher}" />
                 </DockPanel>
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
-                        <Button  x:Name="Decrypt" Content="Дешифровать" />
+                        <Button x:Name="Decrypt" Content="Дешифровать" />
                         <TextBlock Text="Шифрованный текст:" />
                     </DockPanel>
                     <TextBox x:Name="Out" Background="{Binding OutColor}"
