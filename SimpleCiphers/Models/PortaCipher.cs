@@ -37,12 +37,7 @@ namespace SimpleCiphers.Models
 
         public string[] GetRowAlphabet(string abc)
         {
-            var arr = new string[abc.Length];
-            for (int i = 0; i < abc.Length; i++)
-            {
-                arr[i] = abc[i].ToString();
-            }
-            return arr;
+            return abc.Select(x => $"{x}").ToArray();
         }
 
         public string[] GetColAlphabet(string abc)
