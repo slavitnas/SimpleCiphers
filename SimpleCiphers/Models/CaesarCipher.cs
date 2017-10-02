@@ -18,17 +18,6 @@ namespace SimpleCiphers.Models
 
         public string[,] GetEncryptedAlphabet(string key, string abc)
         {
-            if (string.IsNullOrEmpty(key))
-            {
-                throw new ArgumentException("Необходимо задать ключ для шифра Цезаря.");
-            }
-
-            if (!int.TryParse(key, out var temp))
-            {
-                throw new ArgumentException("Ключ для шифра Цезаря должен состоять " +
-                                            "только из целых чисел в пределах int.");
-            }
-
             string encAbc = Crypt(abc, key, abc, true);
             string[,] arr = new string[1, encAbc.Length];
             for (int i = 0; i < encAbc.Length; i++)
