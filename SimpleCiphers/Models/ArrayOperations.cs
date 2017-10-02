@@ -9,9 +9,10 @@ namespace SimpleCiphers.Models
     public static class ArrayOperations
     {
         // Содержится ли text в encAbc. Если да, то возвращаются индексы в encAbc
-        //   a  b     text = 1
-        // a 1  2     return x = 0, y = 0
-        // b 3  4     abc[0,0] = aa - расшифрованный
+        //   a b     text = 1
+        // a 1 2     return x = 0, y = 0
+        // b 3 4     abc[0,0] = aa - расшифрованный
+        //           encAbc[0,0] = 1 - зашифрованный 
         public static bool ContainsIn(string text, string[,] encAbc, out int x, out int y)
         {
             for (int i = 0; i < encAbc.GetLength(0); i++)
@@ -31,10 +32,11 @@ namespace SimpleCiphers.Models
             return false;
         }
 
-        // Содержится ли text на измерениях массива encAbc
+        // Содержится ли text на измерениях массива encAbc с нумерацией 1 2 3 ...
         //   1 2     text = 11
         // 1 a b     return x = 0, y = 0
-        // 2 c d     encAbc[0,0] = a - зашифрованный
+        // 2 c d     abc[0,0] = 11 - расшифрованный
+        //           encAbc[0,0] = a - зашифрованный 
         public static bool ContainsOut(string text, string[,] encAbc, out int x, out int y)
         {
             for (int i = 0; i < encAbc.GetLength(0); i++)
