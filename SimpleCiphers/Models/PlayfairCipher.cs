@@ -56,13 +56,9 @@ namespace SimpleCiphers.Models
             {
                 for (int j = 0; j < abcArr.GetLength(1); j++)
                 {
-                    if (count == abc.Length)
-                        abcArr[i, j] = string.Empty;
-                    else
-                        abcArr[i, j] = encAbc[count++].ToString();
+                    abcArr[i, j] = encAbc[count++].ToString();
                 }
             }
-
             return abcArr;
         }
 
@@ -122,7 +118,6 @@ namespace SimpleCiphers.Models
 
             string result = "";
 
-
             // rows == cols
             int len = encAbc.GetLength(0);
 
@@ -178,7 +173,6 @@ namespace SimpleCiphers.Models
                     }
                 }
             }
-
             return result;
         }
     }
