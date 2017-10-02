@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SimpleCiphers.Views"
         xmlns:dataGrid2D="http://gu.se/DataGrid2D"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        FontSize="15" MinHeight="400" MinWidth="500"
+        FontSize="15" MinHeight="400" MinWidth="600"
         Height="500" Width="600">
     <Window.Resources>
         <Style TargetType="{x:Type Control}" x:Key="BaseStyle">
