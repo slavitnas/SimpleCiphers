@@ -59,11 +59,9 @@ namespace SimpleCiphers.Models
 
         public string Crypt(string text, string abc, bool encrypt)
         {
-            int lengthArr = (int)Math.Ceiling(Math.Sqrt(abc.Length));
-            if (lengthArr > 9)
-            {
-                throw new ArgumentException("Недопустимо большая длина входного алфавита.");
-            }
+            text = text.ToLowerInvariant();
+            // шифрованный алфавит
+            var encAbc = GetEncryptedAlphabet("", abc);
 
             if (encrypt)
             {
@@ -89,10 +87,6 @@ namespace SimpleCiphers.Models
                         "Введите иди удалите одну цифру.");
                 }
             }
-
-            text = text.ToLowerInvariant();
-            // шифрованный алфавит
-            var encAbc = GetEncryptedAlphabet("", abc);
 
             string result = "";
 
