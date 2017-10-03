@@ -49,7 +49,6 @@
                 <MenuItem Header="Выход" x:Name="CloseApp" />
             </MenuItem>
             <MenuItem Header="Справка">
-                <MenuItem Header="Помощь" x:Name="WikiHelp" />
                 <MenuItem Header="О программе..." x:Name="About" />
             </MenuItem>
         </Menu>
