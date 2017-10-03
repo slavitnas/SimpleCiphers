@@ -127,47 +127,39 @@ namespace SimpleCiphers.Models
                 if (ArrayOperations.ContainsIn(first, encAbc, out var x1, out var y1) &&
                     ArrayOperations.ContainsIn(second, encAbc, out var x2, out var y2))
                 {
-                    if (encrypt)
+                    // если в одной строке
+                    if (x1 == x2)
                     {
-                        // если в одной строке
-                        if (x1 == x2)
+                        if (encrypt)
                         {
                             result += $"{encAbc[x1, (y1 + 1) % len]}" +
                                       $"{encAbc[x2, (y2 + 1) % len]}";
                         }
-                        // если в одном столбце
-                        else if (y1 == y2)
-                        {
-                            result += $"{encAbc[(x1 + 1) % len, y1]}" +
-                                      $"{encAbc[(x2 + 1) % len, y2]}";
-                        }
-                        // иначе
                         else
-                        {
-                            result += $"{encAbc[x1, y2]}" +
-                                      $"{encAbc[x2, y1]}";
-                        }
-                    }
-                    else
-                    {
-                        // если в одной строке
-                        if (x1 == x2)
                         {
                             result += $"{encAbc[x1, (y1 - 1 + len) % len]}" +
                                       $"{encAbc[x2, (y2 - 1 + len) % len]}";
                         }
-                        // если в одном столбце
-                        else if (y1 == y2)
+                    }
+                    // если в одном столбце
+                    else if (y1 == y2)
+                    {
+                        if (encrypt)
+                        {
+                            result += $"{encAbc[(x1 + 1) % len, y1]}" +
+                                      $"{encAbc[(x2 + 1) % len, y2]}";
+                        }
+                        else
                         {
                             result += $"{encAbc[(x1 - 1 + len) % len, y1]}" +
                                       $"{encAbc[(x2 - 1 + len) % len, y2]}";
                         }
-                        // иначе
-                        else
-                        {
-                            result += $"{encAbc[x1, y2]}" +
-                                      $"{encAbc[x2, y1]}";
-                        }
+                    }
+                    // иначе
+                    else
+                    {
+                        result += $"{encAbc[x1, y2]}" +
+                                  $"{encAbc[x2, y1]}";
                     }
                 }
             }
