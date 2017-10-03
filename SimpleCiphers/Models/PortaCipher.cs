@@ -83,7 +83,6 @@ namespace SimpleCiphers.Models
                 }
             }
 
-            text = text.ToLowerInvariant();
             // шифрованный алфавит
             var encAbc = GetEncryptedAlphabet(null, abc);
             string result = "";

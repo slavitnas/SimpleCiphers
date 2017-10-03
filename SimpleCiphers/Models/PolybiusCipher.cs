@@ -17,7 +17,7 @@ namespace SimpleCiphers.Models
 
         public string[,] GetEncryptedAlphabet(string key, string abc)
         {
-            int lengthArr = (int)Math.Ceiling(Math.Sqrt(abc.Length));
+            int lengthArr = (int) Math.Ceiling(Math.Sqrt(abc.Length));
 
             if (lengthArr > 9)
             {
@@ -59,7 +59,6 @@ namespace SimpleCiphers.Models
 
         public string Crypt(string text, string abc, bool encrypt)
         {
-            text = text.ToLowerInvariant();
             // шифрованный алфавит
             var encAbc = GetEncryptedAlphabet("", abc);
 

@@ -61,8 +61,6 @@ namespace SimpleCiphers.Models
             // для исключения переполнения
             intKey %= abc.Length;
 
-            text = text.ToLowerInvariant();
-
             // если дешифрование, то надо отнимать
             if (!encrypt)
                 intKey *= -1;

@@ -61,7 +61,7 @@ namespace SimpleCiphers.ViewModels
             set
             {
                 if (_key == value) return;
-                _key = value.Replace(" ", "•");
+                _key = value.ToLower().Replace(" ", "•");
                 ResetColors();
                 ResetAlphabet();
                 NotifyOfPropertyChange(() => Key);
@@ -201,7 +201,7 @@ namespace SimpleCiphers.ViewModels
             set
             {
                 if (_in == value) return;
-                _in = value.Replace(" ", "•");
+                _in = value.ToLower().Replace(" ", "•");
                 ResetColors();
                 NotifyOfPropertyChange(() => In);
                 NotifyOfPropertyChange(() => CanEncrypt);
@@ -217,7 +217,7 @@ namespace SimpleCiphers.ViewModels
             set
             {
                 if (_out == value) return;
-                _out = value.Replace(" ", "•");
+                _out = value.ToLower().Replace(" ", "•");
                 ResetColors();
                 NotifyOfPropertyChange(() => Out);
                 NotifyOfPropertyChange(() => CanDecrypt);

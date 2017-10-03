@@ -37,7 +37,7 @@ namespace SimpleCiphers.Models
                                             $"либо уменьшить до {lowLength}.");
             }
 
-            string slogan = string.Join("", key.ToLowerInvariant().Distinct());
+            string slogan = string.Join("", key.Distinct());
             string check = string.Join("", slogan.Intersect(abc));
             if (check != slogan)
             {
@@ -81,8 +81,6 @@ namespace SimpleCiphers.Models
                 throw new ArgumentException("Необходимо задать ключ для шифра Плейфера.");
             }
 
-            text = text.ToLowerInvariant();
-            key = key.ToLowerInvariant();
             string slogan = string.Join("", key.Distinct());
 
             string check = string.Join("", slogan.Intersect(abc));

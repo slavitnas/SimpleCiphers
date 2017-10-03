@@ -23,7 +23,7 @@ namespace SimpleCiphers.Models
                 throw new ArgumentException("Необходимо задать ключ для лозунгового шифра.");
             }
 
-            string slogan = string.Join("", key.ToLowerInvariant().Distinct());
+            string slogan = string.Join("", key.Distinct());
             string check = string.Join("", slogan.Intersect(abc));
             if (check != slogan)
             {
@@ -56,8 +56,6 @@ namespace SimpleCiphers.Models
                 throw new ArgumentException("Необходимо задать ключ для лозунгового шифра.");
             }
 
-            text = text.ToLowerInvariant();
-            key = key.ToLowerInvariant();
             string slogan = string.Join("", key.Distinct());
 
             string check = string.Join("", slogan.Intersect(abc));
