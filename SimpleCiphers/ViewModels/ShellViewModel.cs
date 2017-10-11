@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
@@ -260,7 +257,15 @@ namespace SimpleCiphers.ViewModels
 
         public static void ShowError(string error)
         {
-            MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            var mbox = new Xceed.Wpf.Toolkit.MessageBox
+            {
+                Caption = "Ошибка",
+                Text = error,
+                FontSize = 15,
+                WindowBackground = new SolidColorBrush(Colors.DarkRed),
+                CaptionForeground = new SolidColorBrush(Colors.White)
+            };
+            mbox.ShowDialog();
         }
 
         // Доступность кнопок
