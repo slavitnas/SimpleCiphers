@@ -43,7 +43,7 @@ namespace SimpleCiphers.Models
                 if (text.Length % 2 != 0)
                 {
                     throw new CipherException("Длина текста для шифрования не кратна 2.\n" +
-                                              "Добавьте иди удалите один символ.");
+                                              "Добавьте или удалите один символ.");
                 }
             }
             else
