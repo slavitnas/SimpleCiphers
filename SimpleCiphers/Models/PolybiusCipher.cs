@@ -5,93 +5,68 @@ namespace SimpleCiphers.Models
 {
     public class PolybiusCipher : ICipher
     {
-        public string Encrypt(string text, string key, string abc)
-        {
-            return Crypt(text, abc, true);
-        }
+        public string Encrypt(string text, string key, string abc) => Crypt(text, abc, true);
 
-        public string Decrypt(string text, string key, string abc)
-        {
-            return Crypt(text, abc, false);
-        }
+        public string Decrypt(string text, string key, string abc) => Crypt(text, abc, false);
 
         public string[,] GetEncryptedAlphabet(string text, string key, string abc)
         {
-            int lengthArr = (int) Math.Ceiling(Math.Sqrt(abc.Length));
+            var lengthArr = (int) Math.Ceiling(Math.Sqrt(abc.Length));
 
             if (lengthArr > 9)
             {
-                throw new ArgumentException("Недопустимо большая длина входного алфавита.");
+                throw new CipherException("Недопустимо большая длина входного алфавита.");
             }
 
             var abcArr = new string[lengthArr, lengthArr];
 
-            int count = 0;
+            var count = 0;
 
-            for (int i = 0; i < abcArr.GetLength(0); i++)
+            for (var i = 0; i < abcArr.GetLength(0); i++)
             {
-                for (int j = 0; j < abcArr.GetLength(1); j++)
+                for (var j = 0; j < abcArr.GetLength(1); j++)
                 {
                     if (count == abc.Length)
-                        abcArr[i, j] = string.Empty;
+                    {
+                        abcArr[i, j] = "";
+                    }
                     else
+                    {
                         abcArr[i, j] = abc[count++].ToString();
+                    }
                 }
             }
-
             return abcArr;
         }
 
-        public string[] GetRowAlphabet(string key, string abc)
-        {
-            var arr = new string[abc.Length];
-            for (int i = 0; i < abc.Length; i++)
-            {
-                arr[i] = $"{i + 1}";
-            }
-            return arr;
-        }
+        public string[] GetRowAlphabet(string key, string abc) => abc.Select(x => $"{abc.IndexOf(x) + 1}").ToArray();
 
-        public string[] GetColAlphabet(string key, string abc)
-        {
-            return GetRowAlphabet(null, abc);
-        }
+        public string[] GetColAlphabet(string key, string abc) => GetRowAlphabet(null, abc);
 
         public string Crypt(string text, string abc, bool encrypt)
         {
-            // шифрованный алфавит
             var encAbc = GetEncryptedAlphabet(null, null, abc);
 
             if (encrypt)
             {
-                string check = string.Join("", abc.Union(text));
-                if (check != abc)
-                {
-                    throw new ArgumentException("Текст содержит символы не из алфавита.");
-                }
+                Checker.TextContain(text, abc);
             }
             else
             {
-                if (!text.All(char.IsDigit))
-                {
-                    throw new ArgumentException(
-                        "Шифрованный текст должен состоять только из цифр.");
-                }
+                Checker.TextEncDigit(text);
 
-                int num = text.Length % 2;
-                if (num != 0)
+                if (text.Length % 2 != 0)
                 {
-                    throw new ArgumentException(
-                        "Длина шифрованного текста не кратна 2.\n" +
-                        "Введите иди удалите одну цифру.");
+                    throw new CipherException("Длина шифрованного текста не кратна 2.\n" +
+                                              "Добавьте иди удалите одну цифру.");
                 }
             }
 
-            string result = "";
+            var result = "";
 
             if (encrypt)
             {
-                foreach (char ch in text)
+                foreach (var ch in text)
                 {
                     if (ArrayOperations.ContainsIn(ch.ToString(), encAbc, out var x, out var y))
                     {
@@ -101,22 +76,45 @@ namespace SimpleCiphers.Models
             }
             else
             {
-                for (int i = 0; i < text.Length - 1; i += 2)
+                for (var i = 0; i < text.Length - 1; i += 2)
                 {
-                    string temp = text.Substring(i, 2);
-                    if (ArrayOperations.ContainsOut(temp, encAbc, out var x, out var y))
+                    var temp = text.Substring(i, 2);
+                    if (ContainsOut(temp, encAbc, out var x, out var y))
                     {
                         result += encAbc[x, y];
                     }
                     else
                     {
-                        throw new ArgumentException(
-                            $"Невозможно расшифровать {temp}.\n" +
-                            "Данной комбинации нет в шифрованном алфавите.");
+                        throw new CipherException($"Невозможно расшифровать {temp}.\n" +
+                                                  "Данной комбинации нет в шифрованном алфавите.");
                     }
                 }
             }
             return result;
+        }
+
+        // Содержится ли text на измерениях массива encAbc с нумерацией 1 2 3 ...
+        //   1 2     text = 11
+        // 1 a b     return x = 0, y = 0
+        // 2 c d     abc[0,0] = 11 - расшифрованный
+        //           encAbc[0,0] = a - зашифрованный
+        public static bool ContainsOut(string text, string[,] encAbc, out int x, out int y)
+        {
+            for (var i = 0; i < encAbc.GetLength(0); i++)
+            {
+                for (var j = 0; j < encAbc.GetLength(1); j++)
+                {
+                    if (text == $"{i + 1}{j + 1}" && encAbc[i, j] != "")
+                    {
+                        x = i;
+                        y = j;
+                        return true;
+                    }
+                }
+            }
+            x = -1;
+            y = -1;
+            return false;
         }
     }
 }
