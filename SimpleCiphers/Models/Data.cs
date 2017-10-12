@@ -19,7 +19,8 @@ namespace SimpleCiphers.Models
             ["Лозунговый"] = new SloganCipher(),
             ["Полибианский"] = new PolybiusCipher(),
             ["Порты"] = new PortaCipher(),
-            ["Плейфера"] = new PlayfairCipher()
+            ["Плейфера"] = new PlayfairCipher(),
+            ["Верт перестановки"] = new ColumnarTransCipher()
         };
     }
 }
