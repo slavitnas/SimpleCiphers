@@ -119,7 +119,12 @@ namespace SimpleCiphers.Models
 
         public string[] GetColAlphabet(string key, string abc)
         {
-            return GetIndexes(key).Select(x => $"{x + 1}").ToArray();
+            var arr = GetIndexes(key).Select(x => $"{x + 1}").ToArray();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = $"{key[i]} ({arr[i]})";
+            }
+            return arr;
         }
 
         private static int[] GetIndexes(string key)
