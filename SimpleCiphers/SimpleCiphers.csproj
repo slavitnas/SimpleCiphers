@@ -107,6 +107,8 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Models\ArrayOperations.cs" />
     <Compile Include="Models\CaesarCipher.cs" />
+    <Compile Include="Models\Checker.cs" />
+    <Compile Include="Models\CipherException.cs" />
     <Compile Include="Models\ColumnarTransCipher.cs" />
     <Compile Include="Models\Data.cs" />
     <Compile Include="Models\ICipher.cs" />
