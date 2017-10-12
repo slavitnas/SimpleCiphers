@@ -50,7 +50,7 @@ namespace SimpleCiphers.ViewModels
 
         #region Ввод ключа
 
-        private string _key = string.Empty;
+        private string _key;
 
         public string Key
         {
@@ -320,9 +320,6 @@ namespace SimpleCiphers.ViewModels
 
         // Выход
         public void CloseApp() => Application.Current.Shutdown();
-
-        // Помощь
-        public void WikiHelp() => Process.Start("https://github.com/slavitnas/SimpleCiphers/wiki");
 
         // О программе
         public void About()
