@@ -109,6 +109,7 @@
     <Compile Include="Models\CaesarCipher.cs" />
     <Compile Include="Models\ColumnarTransCipher.cs" />
     <Compile Include="Models\Data.cs" />
+    <Compile Include="Models\GammaCipher.cs" />
     <Compile Include="Models\ICipher.cs" />
     <Compile Include="Models\PlayfairCipher.cs" />
     <Compile Include="Models\PolybiusCipher.cs" />
