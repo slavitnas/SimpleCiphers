@@ -22,7 +22,7 @@ namespace SimpleCiphers.Models
         {
             if (string.IsNullOrEmpty(key))
             {
-                throw new ArgumentException("Необходимо задать ключ для шифра Плейфера.");
+                throw new CipherException("Необходимо задать ключ для шифра Плейфера.");
             }
 
             int lengthArr = (int) Math.Ceiling(Math.Sqrt(abc.Length));
@@ -32,7 +32,7 @@ namespace SimpleCiphers.Models
 
             if (highLength != abc.Length)
             {
-                throw new ArgumentException($"Длина алфавита составляет {abc.Length}.\n" +
+                throw new CipherException($"Длина алфавита составляет {abc.Length}.\n" +
                                             $"Необходимо либо увеличить ее до {highLength}, " +
                                             $"либо уменьшить до {lowLength}.");
             }
@@ -41,7 +41,7 @@ namespace SimpleCiphers.Models
             string check = string.Join("", slogan.Intersect(abc));
             if (check != slogan)
             {
-                throw new ArgumentException("Лозунг содержит символы не из алфавита.");
+                throw new CipherException("Лозунг содержит символы не из алфавита.");
             }
 
             // зашифрованный алфавит в виде матрицы
@@ -78,21 +78,23 @@ namespace SimpleCiphers.Models
         {
             if (string.IsNullOrEmpty(key))
             {
-                throw new ArgumentException("Необходимо задать ключ для шифра Плейфера.");
+                throw new CipherException("Необходимо задать ключ для шифра Плейфера.");
             }
 
-            string slogan = string.Join("", key.Distinct());
+            string check = string.Join("", abc.Union(key));
 
-            string check = string.Join("", slogan.Intersect(abc));
-            if (check != slogan)
+            //string slogan = string.Join("", key.Distinct());
+
+           // string check = string.Join("", key.Intersect(abc));
+            if (check != abc)
             {
-                throw new ArgumentException("Лозунг содержит символы не из алфавита.");
+                throw new CipherException("Лозунг содержит символы не из алфавита.");
             }
 
             string checkText = string.Join("", abc.Union(text));
             if (checkText != abc)
             {
-                throw new ArgumentException("Текст содержит символы не из алфавита.");
+                throw new CipherException("Текст содержит символы не из алфавита.");
             }
 
             // удвоенные буквы
@@ -100,14 +102,14 @@ namespace SimpleCiphers.Models
             {
                 if (text[i] == text[i + 1])
                 {
-                    throw new ArgumentException(
+                    throw new CipherException(
                         $"Необходимо поставить символ между \"{text[i]}{text[i + 1]}\".");
                 }
             }
 
             if (text.Length % 2 != 0)
             {
-                throw new ArgumentException(
+                throw new CipherException(
                     "Текст содержит нечетное количество символов.\n" +
                     "Добавьте или удалите один символ.");
             }

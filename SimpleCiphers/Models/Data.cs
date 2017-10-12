@@ -15,12 +15,12 @@ namespace SimpleCiphers.Models
 
         public static Dictionary<string, ICipher> CipherMethods = new Dictionary<string, ICipher>
         {
-            ["Цезаря"] = new CaesarCipher(),
+            ["Цезарь"] = new CaesarCipher(),
             ["Лозунговый"] = new SloganCipher(),
             ["Полибианский"] = new PolybiusCipher(),
-            ["Порты"] = new PortaCipher(),
-            ["Плейфера"] = new PlayfairCipher(),
-            ["Верт перестановки"] = new ColumnarTransCipher(),
+            ["Порта"] = new PortaCipher(),
+            ["Плейфер"] = new PlayfairCipher(),
+            ["Вертикальная перестановка"] = new ColumnarTransCipher(),
             ["Гаммирование"] = new XorCipher(),
         };
     }

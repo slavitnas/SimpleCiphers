@@ -64,21 +64,24 @@ namespace SimpleCiphers.Models
                 {
                     if (count == text.Length)
                         textArr[j, index] = "•";
-                    textArr[j, index] = text[count++].ToString();
+                    else
+                        textArr[j, index] = text[count++].ToString();
                 }
             }
 
-            string result = "";
+            var result = string.Join("", textArr.Cast<string>());
 
-            for (int i = 0; i < textArr.GetLength(0); i++)
-            {
-                for (int j = 0; j < textArr.GetLength(1); j++)
-                {
-                    result += textArr[i, j];
-                }
-            }
+//            string result = "";
+//
+//            for (int i = 0; i < textArr.GetLength(0); i++)
+//            {
+//                for (int j = 0; j < textArr.GetLength(1); j++)
+//                {
+//                    result += textArr[i, j];
+//                }
+//            }
 
-            return result.TrimEnd('•');
+            return result;
         }
 
         public string[,] GetEncryptedAlphabet(string text, string key, string abc)
