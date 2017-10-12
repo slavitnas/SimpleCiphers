@@ -15,16 +15,14 @@ namespace SimpleCiphers.Models
         //           encAbc[0,0] = 1 - зашифрованный 
         public static bool ContainsIn(string text, string[,] encAbc, out int x, out int y)
         {
-            for (int i = 0; i < encAbc.GetLength(0); i++)
+            for (var i = 0; i < encAbc.GetLength(0); i++)
             {
-                for (int j = 0; j < encAbc.GetLength(1); j++)
+                for (var j = 0; j < encAbc.GetLength(1); j++)
                 {
-                    if (text == encAbc[i, j])
-                    {
-                        x = i;
-                        y = j;
-                        return true;
-                    }
+                    if (text != encAbc[i, j]) continue;
+                    x = i;
+                    y = j;
+                    return true;
                 }
             }
             x = -1;
@@ -32,28 +30,14 @@ namespace SimpleCiphers.Models
             return false;
         }
 
-        // Содержится ли text на измерениях массива encAbc с нумерацией 1 2 3 ...
-        //   1 2     text = 11
-        // 1 a b     return x = 0, y = 0
-        // 2 c d     abc[0,0] = 11 - расшифрованный
-        //           encAbc[0,0] = a - зашифрованный 
-        public static bool ContainsOut(string text, string[,] encAbc, out int x, out int y)
+        public static string[,] Turn1DTo2D(string encAbc)
         {
-            for (int i = 0; i < encAbc.GetLength(0); i++)
+            var arr = new string[1, encAbc.Length];
+            for (var i = 0; i < encAbc.Length; i++)
             {
-                for (int j = 0; j < encAbc.GetLength(1); j++)
-                {
-                    if (text == $"{i + 1}{j + 1}" && encAbc[i, j] != string.Empty)
-                    {
-                        x = i;
-                        y = j;
-                        return true;
-                    }
-                }
+                arr[0, i] = $"{encAbc[i]}";
             }
-            x = -1;
-            y = -1;
-            return false;
+            return arr;
         }
     }
 }
