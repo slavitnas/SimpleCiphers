@@ -18,7 +18,7 @@ namespace SimpleCiphers.Models
             return Crypt(text, key, abc, false);
         }
 
-        public string[,] GetEncryptedAlphabet(string key, string abc)
+        public string[,] GetEncryptedAlphabet(string text, string key, string abc)
         {
             if (string.IsNullOrEmpty(key))
             {
@@ -62,12 +62,12 @@ namespace SimpleCiphers.Models
             return abcArr;
         }
 
-        public string[] GetRowAlphabet(string abc)
+        public string[] GetRowAlphabet(string key, string abc)
         {
             return null;
         }
 
-        public string[] GetColAlphabet(string abc)
+        public string[] GetColAlphabet(string key, string abc)
         {
             // если null, то колонки заполняются CO C1 C2 ...
             int lengthArr = (int) Math.Ceiling(Math.Sqrt(abc.Length));
@@ -112,7 +112,7 @@ namespace SimpleCiphers.Models
                     "Добавьте или удалите один символ.");
             }
 
-            var encAbc = GetEncryptedAlphabet(key, abc);
+            var encAbc = GetEncryptedAlphabet(null, key, abc);
 
             string result = "";
 

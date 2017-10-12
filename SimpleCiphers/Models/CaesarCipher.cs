@@ -16,7 +16,7 @@ namespace SimpleCiphers.Models
             return Crypt(text, key, abc, false);
         }
 
-        public string[,] GetEncryptedAlphabet(string key, string abc)
+        public string[,] GetEncryptedAlphabet(string text, string key, string abc)
         {
             string encAbc = Crypt(abc, key, abc, true);
             string[,] arr = new string[1, encAbc.Length];
@@ -27,12 +27,12 @@ namespace SimpleCiphers.Models
             return arr;
         }
 
-        public string[] GetRowAlphabet(string abc)
+        public string[] GetRowAlphabet(string key, string abc)
         {
             return null;
         }
 
-        public string[] GetColAlphabet(string abc)
+        public string[] GetColAlphabet(string key, string abc)
         {
             return abc.Select(x => $"{x}").ToArray();
         }

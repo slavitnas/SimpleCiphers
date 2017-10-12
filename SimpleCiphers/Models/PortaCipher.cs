@@ -18,7 +18,7 @@ namespace SimpleCiphers.Models
             return Crypt(text, abc, false);
         }
 
-        public string[,] GetEncryptedAlphabet(string key, string abc)
+        public string[,] GetEncryptedAlphabet(string text, string key, string abc)
         {
             int len = abc.Length;
             string leadZeros = $"D{Math.Floor(Math.Log10(len * len) + 1)}";
@@ -35,14 +35,14 @@ namespace SimpleCiphers.Models
             return abcArr;
         }
 
-        public string[] GetRowAlphabet(string abc)
+        public string[] GetRowAlphabet(string key, string abc)
         {
             return abc.Select(x => $"{x}").ToArray();
         }
 
-        public string[] GetColAlphabet(string abc)
+        public string[] GetColAlphabet(string key, string abc)
         {
-            return GetRowAlphabet(abc);
+            return GetRowAlphabet(null, abc);
         }
 
         public string Crypt(string text, string abc, bool encrypt)
@@ -84,7 +84,7 @@ namespace SimpleCiphers.Models
             }
 
             // шифрованный алфавит
-            var encAbc = GetEncryptedAlphabet(null, abc);
+            var encAbc = GetEncryptedAlphabet(null, null, abc);
             string result = "";
 
             if (encrypt)

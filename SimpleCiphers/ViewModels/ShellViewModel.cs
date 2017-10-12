@@ -171,9 +171,9 @@ namespace SimpleCiphers.ViewModels
         {
             try
             {
-                EncryptedAlphabet = _cipher.GetEncryptedAlphabet(Key, Alphabet);
-                RowAlphabet = _cipher.GetRowAlphabet(Alphabet);
-                ColAlphabet = _cipher.GetColAlphabet(Alphabet);
+                EncryptedAlphabet = _cipher.GetEncryptedAlphabet(In, Key, Alphabet);
+                RowAlphabet = _cipher.GetRowAlphabet(Key, Alphabet);
+                ColAlphabet = _cipher.GetColAlphabet(Key, Alphabet);
             }
             catch (Exception ex)
             {
