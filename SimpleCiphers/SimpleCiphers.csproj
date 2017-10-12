@@ -114,6 +114,7 @@
     <Compile Include="Models\PolybiusCipher.cs" />
     <Compile Include="Models\PortaCipher.cs" />
     <Compile Include="Models\SloganCipher.cs" />
+    <Compile Include="Models\XorCipher.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>

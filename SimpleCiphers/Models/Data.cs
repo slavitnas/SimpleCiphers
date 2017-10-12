@@ -20,7 +20,8 @@ namespace SimpleCiphers.Models
             ["Полибианский"] = new PolybiusCipher(),
             ["Порты"] = new PortaCipher(),
             ["Плейфера"] = new PlayfairCipher(),
-            ["Верт перестановки"] = new ColumnarTransCipher()
+            ["Верт перестановки"] = new ColumnarTransCipher(),
+            ["Гаммирование"] = new XorCipher(),
         };
     }
 }
