@@ -10,7 +10,7 @@ namespace SimpleCiphers.Models
 
         public string[,] GetEncryptedAlphabet(string text, string key, string abc)
         {
-            var encAbc = Crypt(abc, key, abc, true);
+            var encAbc = Crypt(abc, key, abc, true).Select(x => $"{x}").ToArray();
             return ArrayOperations.Turn1DTo2D(encAbc);
         }
 

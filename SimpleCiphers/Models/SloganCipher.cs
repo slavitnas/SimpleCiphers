@@ -13,7 +13,7 @@ namespace SimpleCiphers.Models
             Checker.KeyNull(key);
             Checker.KeyContain(key, abc);
 
-            var encAbc = string.Join("", key.Union(abc));
+            var encAbc = key.Union(abc).Select(x => $"{x}").ToArray();
             return ArrayOperations.Turn1DTo2D(encAbc);
         }
 
