@@ -8,69 +8,35 @@ namespace SimpleCiphers.Models
 {
     public class XorCipher : ICipher
     {
-        public string Encrypt(string text, string key, string abc)
-        {
-            return Crypt(text, key, abc, true);
-        }
+        public string Encrypt(string text, string key, string abc) => Crypt(text, key, abc, true);
 
-        public string Decrypt(string text, string key, string abc)
-        {
-            return Crypt(text, key, abc, false);
-        }
+        public string Decrypt(string text, string key, string abc) => Crypt(text, key, abc, false);
 
         public string[,] GetEncryptedAlphabet(string text, string key, string abc)
         {
-            string[,] arr = new string[5, abc.Length];
-
-            for (int i = 0; i < abc.Length; i++)
-            {
-                arr[0, i] = i.ToString();
-            }
-
-            for (int i = 0; i < text.Length; i++)
-            {
-                char temp = key[i % key.Length];
-                arr[1, i] = text[i].ToString();
-                arr[2, i] = abc.IndexOf(text[i]).ToString();
-                arr[3, i] = temp.ToString();
-                arr[4, i] = abc.IndexOf(temp).ToString();
-            }
-
-            return arr;
+            var arr = abc.Select(x => $"{abc.IndexOf(x)}").ToArray();
+            return ArrayOperations.Turn1DTo2D(arr);
         }
 
-        public string[] GetRowAlphabet(string key, string abc)
-        {
-            return null;
-        }
+        public string[] GetRowAlphabet(string key, string abc) => null;
 
-        public string[] GetColAlphabet(string key, string abc)
-        {
-            return abc.Select(x => $"{x}").ToArray();
-        }
+        public string[] GetColAlphabet(string key, string abc) => abc.Select(x => $"{x}").ToArray();
 
         public string Crypt(string text, string key, string abc, bool encrypt)
         {
-            if (string.IsNullOrEmpty(key))
+            Checker.KeyNull(key);
+            Checker.KeyContain(key, abc);
+            Checker.TextNull(text);
+            Checker.TextContain(text, abc);
+
+            var len = abc.Length;
+            var result = "";
+            // index of the key symbol
+            var count = 0;
+            foreach (var t in text)
             {
-                throw new ArgumentException("Необходимо задать ключ.");
-            }
-
-            string checkText = string.Join("", abc.Union(text));
-            if (checkText != abc)
-            {
-                throw new ArgumentException("Текст содержит символы не из алфавита.");
-            }
-
-            int len = abc.Length;
-
-            string result = "";
-
-            int cnt = 0;
-            foreach (char t in text)
-            {
-                int index = abc.IndexOf(t);
-                int keyIndex = abc.IndexOf(key[cnt++]);
+                var index = abc.IndexOf(t);
+                var keyIndex = abc.IndexOf(key[count]);
                 if (encrypt)
                 {
                     result += $"{abc[(index + keyIndex) % len]}";
@@ -79,8 +45,7 @@ namespace SimpleCiphers.Models
                 {
                     result += $"{abc[(index + len - keyIndex) % len]}";
                 }
-                if (cnt == key.Length - 1)
-                    cnt = 0;
+                count = (count + 1) % key.Length;
             }
             return result;
         }
