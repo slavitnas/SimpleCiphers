@@ -30,7 +30,7 @@ namespace SimpleCiphers.Models
             return false;
         }
 
-        public static string[,] Turn1DTo2D(string encAbc)
+        public static string[,] Turn1DTo2D(string[] encAbc)
         {
             var arr = new string[1, encAbc.Length];
             for (var i = 0; i < encAbc.Length; i++)
