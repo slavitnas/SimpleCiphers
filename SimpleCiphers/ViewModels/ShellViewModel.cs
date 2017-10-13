@@ -183,7 +183,8 @@ namespace SimpleCiphers.ViewModels
 
         public bool CanShowAlphabet => !string.IsNullOrEmpty(Key)
                                        || _cipher is PolybiusCipher
-                                       || _cipher is PortaCipher;
+                                       || _cipher is PortaCipher
+                                       || _cipher is XorCipher;
 
         #endregion
 
