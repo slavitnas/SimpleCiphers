@@ -6,105 +6,29 @@ using System.Threading.Tasks;
 
 namespace SimpleCiphers.Models
 {
-    // Шифр вертикальной перестановки
     public class ColumnarTransCipher : ICipher
     {
-        public string Encrypt(string text, string key, string abc)
-        {
-            if (string.IsNullOrEmpty(key))
-            {
-                throw new ArgumentException("Необходимо задать ключ.");
-            }
+        public string Encrypt(string text, string key, string abc) => Crypt(text, key, abc, true);
 
-            var encAbc = GetEncryptedAlphabet(text, key, abc);
-            int[] indexes = GetIndexes(key);
-
-            string result = "";
-
-            for (int i = 0; i < key.Length; i++)
-            {
-                int index = Array.IndexOf(indexes, i);
-                for (int j = 0; j < encAbc.GetLength(0); j++)
-                {
-                    result += encAbc[j, index];
-                }
-            }
-            return result;
-        }
-
-        public string Decrypt(string text, string key, string abc)
-        {
-            if (string.IsNullOrEmpty(key))
-            {
-                throw new ArgumentException("Необходимо задать ключ.");
-            }
-
-            int cols = key.Length;
-            int textLen = text.Length;
-
-            if (cols > textLen)
-            {
-                throw new ArgumentException("Длина ключа больше чем шифрованный текст.");
-            }
-
-            int rows = textLen / cols;
-
-            if (textLen % cols > 0)
-                rows += 1;
-
-            var textArr = new string[rows, cols];
-
-            int count = 0;
-            int[] indexes = GetIndexes(key);
-
-            for (int i = 0; i < key.Length; i++)
-            {
-                int index = Array.IndexOf(indexes, i);
-                for (int j = 0; j < textArr.GetLength(0); j++)
-                {
-                    if (count == text.Length)
-                        textArr[j, index] = "•";
-                    else
-                        textArr[j, index] = text[count++].ToString();
-                }
-            }
-
-            var result = string.Join("", textArr.Cast<string>());
-
-//            string result = "";
-//
-//            for (int i = 0; i < textArr.GetLength(0); i++)
-//            {
-//                for (int j = 0; j < textArr.GetLength(1); j++)
-//                {
-//                    result += textArr[i, j];
-//                }
-//            }
-
-            return result;
-        }
+        public string Decrypt(string text, string key, string abc) => Crypt(text, key, abc, false);
 
         public string[,] GetEncryptedAlphabet(string text, string key, string abc)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                throw new ArgumentException("Необходимо задать исходный текст.");
-            }
+            Checker.KeyNull(key);
+            Checker.TextNull(text);
 
-            int textLen = text.Length;
-            int cols = key.Length;
-            int rows = textLen / cols;
-
+            var textLen = text.Length;
+            var cols = key.Length;
+            var rows = textLen / cols;
             if (textLen % cols > 0)
                 rows += 1;
 
             var textArr = new string[rows, cols];
+            var count = 0;
 
-            int count = 0;
-
-            for (int i = 0; i < textArr.GetLength(0); i++)
+            for (var i = 0; i < textArr.GetLength(0); i++)
             {
-                for (int j = 0; j < textArr.GetLength(1); j++)
+                for (var j = 0; j < textArr.GetLength(1); j++)
                 {
                     if (count == text.Length)
                         textArr[i, j] = "•";
@@ -115,26 +39,79 @@ namespace SimpleCiphers.Models
             return textArr;
         }
 
-        public string[] GetRowAlphabet(string key, string abc)
-        {
-            return null;
-        }
+        public string[] GetRowAlphabet(string key, string abc) => null;
 
         public string[] GetColAlphabet(string key, string abc)
         {
             var arr = GetIndexes(key).Select(x => $"{x + 1}").ToArray();
-            for (int i = 0; i < arr.Length; i++)
+            for (var i = 0; i < arr.Length; i++)
             {
                 arr[i] = $"{key[i]} ({arr[i]})";
             }
             return arr;
         }
 
+        public string Crypt(string text, string key, string abc, bool encrypt)
+        {
+            Checker.KeyNull(key);
+            Checker.TextNull(text);
+
+            var indexes = GetIndexes(key);
+            var result = "";
+
+            if (encrypt)
+            {
+                var encAbc = GetEncryptedAlphabet(text, key, abc);
+
+                for (var i = 0; i < key.Length; i++)
+                {
+                    var index = Array.IndexOf(indexes, i);
+                    for (var j = 0; j < encAbc.GetLength(0); j++)
+                    {
+                        result += encAbc[j, index];
+                    }
+                }
+            }
+            else
+            {
+                var cols = key.Length;
+                var textLen = text.Length;
+
+                if (cols > textLen)
+                {
+                    throw new CipherException("Длина ключа больше чем шифрованный текст.");
+                }
+
+                var rows = textLen / cols;
+
+                if (textLen % cols > 0)
+                    rows += 1;
+
+                var textArr = new string[rows, cols];
+                var count = 0;
+
+                for (var i = 0; i < key.Length; i++)
+                {
+                    var index = Array.IndexOf(indexes, i);
+                    for (var j = 0; j < textArr.GetLength(0); j++)
+                    {
+                        if (count == text.Length)
+                            textArr[j, index] = "•";
+                        else
+                            textArr[j, index] = text[count++].ToString();
+                    }
+                }
+                result = string.Join("", textArr.Cast<string>());
+            }
+            return result;
+        }
+
+        // Get sorted indexes of the key
         private static int[] GetIndexes(string key)
         {
-            int keyLength = key.Length;
-            int[] indexes = new int[keyLength];
-            List<KeyValuePair<int, char>> sortedKey = new List<KeyValuePair<int, char>>();
+            var keyLength = key.Length;
+            var indexes = new int[keyLength];
+            var sortedKey = new List<KeyValuePair<int, char>>();
             int i;
 
             for (i = 0; i < keyLength; i++)
@@ -142,7 +119,7 @@ namespace SimpleCiphers.Models
 
             sortedKey.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
 
-            for (i = 0; i < keyLength; ++i)
+            for (i = 0; i < keyLength; i++)
                 indexes[sortedKey[i].Key] = i;
 
             return indexes;
