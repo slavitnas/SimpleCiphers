@@ -32,6 +32,8 @@ namespace SimpleCiphers.Models
 
         public string Crypt(string text, string abc, bool encrypt)
         {
+            Checker.TextNull(text);
+
             var len = abc.Length;
             // the number of significant digits
             var count = (int) Math.Floor(Math.Log10(len * len) + 1);

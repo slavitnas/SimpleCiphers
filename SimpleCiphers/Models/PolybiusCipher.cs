@@ -47,6 +47,8 @@ namespace SimpleCiphers.Models
         {
             var encAbc = GetEncryptedAlphabet(null, null, abc);
 
+            Checker.TextNull(text);
+
             if (encrypt)
             {
                 Checker.TextContain(text, abc);
