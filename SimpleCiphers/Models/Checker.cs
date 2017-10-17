@@ -15,11 +15,9 @@ namespace SimpleCiphers.Models
 
         public static void KeyContain(string key, string abc)
         {
-            var check = string.Join("", abc.Union(key));
-            if (check != abc)
-            {
-                throw new CipherException("Ключ содержит символы не из алфавита.");
-            }
+            var exclude = string.Join("", key.Except(abc));
+            if (exclude == string.Empty) return;
+            throw new CipherException($"Ключ содержит символы не из алфавита:\n{exclude}.");
         }
 
         public static void TextNull(string text)
@@ -32,11 +30,9 @@ namespace SimpleCiphers.Models
 
         public static void TextContain(string text, string abc)
         {
-            var check = string.Join("", abc.Union(text));
-            if (check != abc)
-            {
-                throw new CipherException("Текст содержит символы не из алфавита.");
-            }
+            var exclude = string.Join("", text.Except(abc));
+            if (exclude == string.Empty) return;
+            throw new CipherException($"Текст содержит символы не из алфавита:\n{exclude}");
         }
 
         public static int GetKeyInt(string key)
